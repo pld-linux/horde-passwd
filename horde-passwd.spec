@@ -3,13 +3,13 @@
 Summary:	passwd - password change module for Horde
 Summary(pl):	passwd - modu³ do zmieniania hase³ w Horde
 Name:		horde-passwd
-Version:	2.2
-Release:	0.3
+Version:	2.2.1
+Release:	0.1
 License:	LGPL
 Vendor:		The Horde Project
 Group:		Applications/Mail
 Source0:	http://ftp.horde.org/pub/passwd/passwd-%{version}.tar.gz
-# Source0-md5:	c355ab7ddbb51964e771d523cc08bcd2
+# Source0-md5:	8b17c4d1a9c75ebd0200075fd32f76bf
 Source1:	%{name}.conf
 URL:		http://www.horde.org/passwd/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
