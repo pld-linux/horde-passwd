@@ -4,7 +4,7 @@
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	passwd - Password change module for Horde
-Summary(pl):	passwd - Modu³ do zmienia hase³ w Horde
+Summary(pl):	passwd - Modu³ do zmieniania hase³ w Horde
 Name:		horde-passwd
 Version:	2.2
 Release:	0.1
@@ -30,6 +30,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Passwd is the Horde password changing application. While it has been
 released and is in production use at many sites, it is also under
 heavy development in an effort to expand and improve the module.
+
+%description -l pl
+Passwd to aplikacja do zmieniania hase³ w Horde. Chocia¿ zosta³a ju¿
+wydana i jest u¿ywana produkcyjnie w wielu serwisach, jest nadal
+intensyjwnie rozwijana, aby rozszerzyæ mo¿liwo¶ci i udoskonaliæ ten
+modu³.
 
 %prep
 %setup -q -n passwd-%{version}
