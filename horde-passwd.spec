@@ -4,12 +4,13 @@ Summary:	passwd - password change module for Horde
 Summary(pl):	passwd - modu³ do zmieniania hase³ w Horde
 Name:		horde-passwd
 Version:	2.2
-Release:	0.2
+Release:	0.3
 License:	LGPL
 Vendor:		The Horde Project
 Group:		Applications/Mail
 Source0:	http://ftp.horde.org/pub/passwd/passwd-%{version}.tar.gz
 # Source0-md5:	c355ab7ddbb51964e771d523cc08bcd2
+Source1:	%{name}.conf
 URL:		http://www.horde.org/passwd/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
 PreReq:		apache
@@ -54,12 +55,50 @@ cp -p   templates/.htaccess     $RPM_BUILD_ROOT%{hordedir}/passwd/templates
 
 ln -fs %{confdir}/passwd $RPM_BUILD_ROOT%{hordedir}/passwd/config
 
+install %{SOURCE1} $RPM_BUILD_ROOT%{apachedir}
+
 # bit unclean..
 cd $RPM_BUILD_ROOT%{confdir}/passwd
 for i in *.dist; do cp $i `basename $i .dist`; done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+if [ -f /etc/httpd/httpd.conf ] && ! grep -q "^Include.*%{name}.conf" /etc/httpd/httpd.conf; then
+        echo "Include /etc/httpd/%{name}.conf" >> /etc/httpd/httpd.conf
+        if [ -f /var/lock/subsys/httpd ]; then
+                /usr/sbin/apachectl restart 1>&2
+        fi
+elif [ -d /etc/httpd/httpd.conf ]; then
+        ln -sf /etc/httpd/%{name}.conf /etc/httpd/httpd.conf/99_%{name}.conf
+        if [ -f /var/lock/subsys/httpd ]; then
+                /usr/sbin/apachectl restart 1>&2
+        fi
+fi
+
+%preun
+if [ "$1" = "0" ]; then
+        umask 027
+        if [ -d /etc/httpd/httpd.conf ]; then
+                rm -f /etc/httpd/httpd.conf/99_%{name}.conf
+	else
+	        grep -v "^Include.*%{name}.conf" /etc/httpd/httpd.conf > \
+    	    		/etc/httpd/httpd.conf.tmp
+	        mv -f /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
+	fi
+        if [ -f /var/lock/subsys/httpd ]; then
+                /usr/sbin/apachectl restart 1>&2
+        fi
+fi
+
+%triggerpostun -- horde-passwd <= 2.2-0.1                                                    
+for i in backends.php conf.php; do
+        if [ -f /home/services/httpd/html/horde/passwd/config/$i.rpmsave ]; then
+		mv -f %{confdir}/passwd/$i %{confdir}/passwd/$i.rpmnew
+		mv -f /home/services/httpd/html/horde/passwd/config/$i.rpmsave %{confdir}/passwd/$i
+        fi
+done
 
 %files
 %defattr(644,root,root,755)
@@ -76,4 +115,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(640,root,http) %{confdir}/passwd/*.dist
 %attr(640,root,http) %{confdir}/passwd/.htaccess
 %attr(640,root,http) %config(noreplace) %{confdir}/passwd/*.php
-#%{apachedir}/passwd
+%attr(640,root,http) %{apachedir}/%{name}.conf
