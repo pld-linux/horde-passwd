@@ -42,8 +42,8 @@ modu³.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{apachedir}
-install -d $RPM_BUILD_ROOT%{hordedir}/passwd/{config,graphics,lib,locale,templates,scripts}
+install -d $RPM_BUILD_ROOT%{apachedir} \
+	$RPM_BUILD_ROOT%{hordedir}/passwd/{config,graphics,lib,locale,templates,scripts}
 
 cp -pR	*.php			$RPM_BUILD_ROOT%{hordedir}/passwd
 cp -pR  config/*.dist           $RPM_BUILD_ROOT%{hordedir}/passwd/config
@@ -51,11 +51,10 @@ cp -pR  graphics/*              $RPM_BUILD_ROOT%{hordedir}/passwd/graphics
 cp -pR  lib/*                   $RPM_BUILD_ROOT%{hordedir}/passwd/lib
 cp -pR  locale/*                $RPM_BUILD_ROOT%{hordedir}/passwd/locale
 cp -pR  templates/*             $RPM_BUILD_ROOT%{hordedir}/passwd/templates
-
 cp -p   config/.htaccess        $RPM_BUILD_ROOT%{hordedir}/passwd/config
 cp -p   templates/.htaccess     $RPM_BUILD_ROOT%{hordedir}/passwd/templates
 
-ln -fs $RM_BUILD_ROOT%{hordedir}/passwd/config $RPM_BUILD_ROOT%{apachedir}/passwd
+ln -fs %{hordedir}/passwd/config $RPM_BUILD_ROOT%{apachedir}/passwd
 
 # bit unclean..
 cd $RPM_BUILD_ROOT%{hordedir}/passwd/config
@@ -64,38 +63,9 @@ for i in *.dist; do cp $i `basename $i .dist`; done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-if [ -f /etc/httpd/httpd.conf ] && ! grep -q "^Include.*%{name}.conf" /etc/httpd/httpd.conf; then
-	echo "Include /etc/httpd/%{name}.conf" >> /etc/httpd/httpd.conf
-	if [ -f /var/lock/subsys/httpd ]; then
-		/usr/sbin/apachectl restart 1>&2
-	fi
-elif [ -d /etc/httpd/httpd.conf ]; then
-	ln -sf /etc/httpd/%{name}.conf /etc/httpd/httpd.conf/99_%{name}.conf
-	if [ -f /var/lock/subsys/httpd ]; then
-		/usr/sbin/apachectl restart 1>&2
-	fi
-fi
-
-%preun
-if [ "$1" = "0" ]; then
-	umask 027
-	if [ -d /etc/httpd/httpd.conf ]; then
-	    rm -f /etc/httpd/httpd.conf/99_%{name}.conf
-	else
-		grep -v "^Include.*%{name}.conf" /etc/httpd/httpd.conf > \
-			/etc/httpd/httpd.conf.tmp
-		mv -f /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
-	fi
-	if [ -f /var/lock/subsys/httpd ]; then
-	    /usr/sbin/apachectl restart 1>&2
-	fi
-fi
-
 %files
 %defattr(644,root,root,755)
 %doc README docs/*
-
 %dir %{hordedir}/passwd
 %attr(640,root,http) %{hordedir}/passwd/*.php
 %attr(750,root,http) %{hordedir}/passwd/graphics
