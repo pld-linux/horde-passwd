@@ -3,8 +3,8 @@
 # - trigger to move configs
 #
 %include	/usr/lib/rpm/macros.php
-Summary:	passwd - Password change module for Horde
-Summary(pl):	passwd - Modu³ do zmieniania hase³ w Horde
+Summary:	passwd - password change module for Horde
+Summary(pl):	passwd - modu³ do zmieniania hase³ w Horde
 Name:		horde-passwd
 Version:	2.2
 Release:	0.1
