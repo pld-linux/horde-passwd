@@ -1,13 +1,10 @@
-# TODO:
-# - move configs to /etc
-# - trigger to move configs
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	passwd - password change module for Horde
 Summary(pl):	passwd - modu³ do zmieniania hase³ w Horde
 Name:		horde-passwd
 Version:	2.2
-Release:	0.1
+Release:	0.2
 License:	LGPL
 Vendor:		The Horde Project
 Group:		Applications/Mail
@@ -25,6 +22,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		apachedir	/etc/httpd
 %define		hordedir	/usr/share/horde
+%define		confdir		/etc/horde.org
 
 %description
 Passwd is the Horde password changing application. While it has been
@@ -42,22 +40,22 @@ modu³.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{apachedir} \
-	$RPM_BUILD_ROOT%{hordedir}/passwd/{config,graphics,lib,locale,templates,scripts}
+install -d $RPM_BUILD_ROOT%{apachedir} $RPM_BUILD_ROOT%{hordedir}/passwd/{graphics,lib,locale,templates,scripts}
+install -d $RPM_BUILD_ROOT%{confdir}/passwd
 
 cp -pR	*.php			$RPM_BUILD_ROOT%{hordedir}/passwd
-cp -pR  config/*.dist           $RPM_BUILD_ROOT%{hordedir}/passwd/config
+cp -pR  config/*.dist           $RPM_BUILD_ROOT%{confdir}/passwd
 cp -pR  graphics/*              $RPM_BUILD_ROOT%{hordedir}/passwd/graphics
 cp -pR  lib/*                   $RPM_BUILD_ROOT%{hordedir}/passwd/lib
 cp -pR  locale/*                $RPM_BUILD_ROOT%{hordedir}/passwd/locale
 cp -pR  templates/*             $RPM_BUILD_ROOT%{hordedir}/passwd/templates
-cp -p   config/.htaccess        $RPM_BUILD_ROOT%{hordedir}/passwd/config
+cp -p   config/.htaccess        $RPM_BUILD_ROOT%{confdir}/passwd
 cp -p   templates/.htaccess     $RPM_BUILD_ROOT%{hordedir}/passwd/templates
 
-ln -fs %{hordedir}/passwd/config $RPM_BUILD_ROOT%{apachedir}/passwd
+ln -fs %{confdir}/passwd $RPM_BUILD_ROOT%{hordedir}/passwd/config
 
 # bit unclean..
-cd $RPM_BUILD_ROOT%{hordedir}/passwd/config
+cd $RPM_BUILD_ROOT%{confdir}/passwd
 for i in *.dist; do cp $i `basename $i .dist`; done
 
 %clean
@@ -73,8 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(750,root,http) %{hordedir}/passwd/locale
 %attr(750,root,http) %{hordedir}/passwd/templates
 
-%attr(750,root,http) %dir %{hordedir}/passwd/config
-%attr(640,root,http) %{hordedir}/passwd/config/*.dist
-%attr(640,root,http) %{hordedir}/passwd/config/.htaccess
-%attr(640,root,http) %config(noreplace) %{hordedir}/passwd/config/*.php
-%{apachedir}/passwd
+%attr(750,root,http) %dir %{confdir}/passwd
+%{hordedir}/passwd/config
+%attr(640,root,http) %{confdir}/passwd/*.dist
+%attr(640,root,http) %{confdir}/passwd/.htaccess
+%attr(640,root,http) %config(noreplace) %{confdir}/passwd/*.php
+#%{apachedir}/passwd
