@@ -7,7 +7,7 @@ Version:	2.2.1
 Release:	0.1
 License:	LGPL
 Vendor:		The Horde Project
-Group:		Applications/Mail
+Group:		Applications/WWW
 Source0:	http://ftp.horde.org/pub/passwd/passwd-%{version}.tar.gz
 # Source0-md5:	8b17c4d1a9c75ebd0200075fd32f76bf
 Source1:	%{name}.conf
