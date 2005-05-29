@@ -15,7 +15,7 @@ URL:		http://www.horde.org/passwd/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
 PreReq:		apache
 Requires(post):	grep
-Requires:	horde >= 2.0
+Requires:	horde < 3.0
 Requires:	php-xml >= 4.1.0
 Obsoletes:	horde-addons-passwd
 BuildArch:	noarch
