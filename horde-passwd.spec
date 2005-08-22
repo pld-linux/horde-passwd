@@ -5,7 +5,7 @@ Summary:	passwd - password change module for Horde
 Summary(pl):	passwd - modu³ do zmieniania hase³ w Horde
 Name:		horde-passwd
 Version:	3.0
-Release:	0.4
+Release:	0.10
 License:	LGPL
 Vendor:		The Horde Project
 Group:		Applications/WWW
@@ -15,6 +15,7 @@ Source1:	%{name}.conf
 URL:		http://www.horde.org/passwd/
 BuildRequires:	rpmbuild(macros) >= 1.226
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
+Requires(post):	sed >= 4.0
 Requires:	apache >= 1.3.33-2
 Requires:	apache(mod_access)
 Requires:	horde >= 3.0
@@ -78,6 +79,15 @@ rm -rf $RPM_BUILD_ROOT
 %post
 if [ ! -f %{_sysconfdir}/%{_hordeapp}/conf.php.bak ]; then
 	install /dev/null -o root -g http -m660 %{_sysconfdir}/%{_hordeapp}/conf.php.bak
+fi
+
+# take uids with < 500 and update refused logins in default conf.xml
+USERLIST=$(awk -F: '{ if ($3 < 500) print $1 }' < /etc/passwd | xargs | tr ' ' ',')
+if [ "$USERLIST" ]; then
+	sed -i -e "
+	# primitive xml parser ;)
+	/configlist name=\"refused\"/s/>.*</>$USERLIST</
+	" %{_sysconfdir}/%{_hordeapp}/conf.xml
 fi
 
 %triggerin -- apache1 >= 1.3.33-2
