@@ -21,6 +21,8 @@ Obsoletes:	horde-addons-passwd
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define         _noautoreq      'pear(../lib/.*)' 'pear(Horde/.*)' 'pear(Crypt/CHAP.php)'
+
 %define		apachedir	/etc/httpd
 %define		hordedir	/usr/share/horde
 %define		confdir		/etc/horde.org
