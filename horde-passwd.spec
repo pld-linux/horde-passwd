@@ -1,5 +1,5 @@
 %define	_snap	2005-08-23
-%define	_rel	1
+%define	_rel	2
 #
 %define		_hordeapp	passwd
 %include	/usr/lib/rpm/macros.php
@@ -51,6 +51,7 @@ modu³.
 %setup -q -n %{?_snap:%{_hordeapp}}%{!?_snap:%{_hordeapp}-h3-%{version}%{?_rc:-%{_rc}}}
 %patch0 -p1
 
+rm -f scripts/.htaccess
 # considered harmful (horde/docs/SECURITY)
 rm -f test.php
 
