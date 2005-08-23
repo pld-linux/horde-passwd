@@ -30,7 +30,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # horde accesses it directly in help->about
 %define		_noautocompressdoc  CREDITS
-%define		_noautoreq	'pear(Horde/.*)'
+%define		_noautoreq	'pear(Horde/.*)' 'pear(Crypt/CHAP.php)'
 
 %define		hordedir	/usr/share/horde
 %define		_sysconfdir	/etc/horde.org
