@@ -1,3 +1,5 @@
+%define	_snap	2005-08-23
+%define	_rel	1
 #
 %define		_hordeapp	passwd
 %include	/usr/lib/rpm/macros.php
@@ -5,14 +7,15 @@ Summary:	passwd - password change module for Horde
 Summary(pl):	passwd - modu³ do zmieniania hase³ w Horde
 Name:		horde-passwd
 Version:	3.0
-Release:	0.12
+Release:	%{?_rc:%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
 License:	LGPL
 Vendor:		The Horde Project
 Group:		Applications/WWW
-Source0:	ftp://ftp.horde.org/pub/passwd/passwd-h3-%{version}-beta.tar.gz
-# Source0-md5:	9ea299d2822c9d3ca5efca03ce6a23a4
+#Source0:	ftp://ftp.horde.org/pub/passwd/passwd-h3-%{version}-beta.tar.gz
+Source0:	http://ftp.horde.org/pub/snaps/%{_snap}/passwd-HEAD-%{_snap}.tar.gz
+# Source0-md5:	15944d881c02ce24379d58a4bb613ab1
 Source1:	%{name}.conf
-Patch0:		http://glen.alkohol.ee/pld/horde-passwd-hook-misconf.patch
+Patch0:		http://glen.alkohol.ee/pld/%{name}-hook-misconf.patch
 URL:		http://www.horde.org/passwd/
 BuildRequires:	rpmbuild(macros) >= 1.226
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
@@ -45,7 +48,7 @@ intensyjwnie rozwijana, aby rozszerzyæ mo¿liwo¶ci i udoskonaliæ ten
 modu³.
 
 %prep
-%setup -q -n passwd-h3-%{version}-beta
+%setup -q -n %{?_snap:%{_hordeapp}}%{!?_snap:%{_hordeapp}-h3-%{version}%{?_rc:-%{_rc}}}
 %patch0 -p1
 
 # considered harmful (horde/docs/SECURITY)
@@ -71,7 +74,7 @@ cp -pR	templates/*		$RPM_BUILD_ROOT%{_appdir}/templates
 cp -pR	themes/*		$RPM_BUILD_ROOT%{_appdir}/themes
 
 ln -s %{_sysconfdir}/%{_hordeapp} 	$RPM_BUILD_ROOT%{_appdir}/config
-ln -s %{_defaultdocdir}/%{name}-%{version}/CREDITS $RPM_BUILD_ROOT%{_appdir}/docs
+ln -s %{_docdir}/%{name}-%{version}/CREDITS $RPM_BUILD_ROOT%{_appdir}/docs
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache-%{_hordeapp}.conf
 
