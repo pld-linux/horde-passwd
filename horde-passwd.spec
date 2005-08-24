@@ -11,13 +11,14 @@ Release:	%{?_rc:%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
 License:	ASL
 Vendor:		The Horde Project
 Group:		Applications/WWW
-#Source0:	ftp://ftp.horde.org/pub/passwd/passwd-h3-%{version}-beta.tar.gz
-Source0:	http://ftp.horde.org/pub/snaps/%{_snap}/passwd-HEAD-%{_snap}.tar.gz
+#Source0:	ftp://ftp.horde.org/pub/passwd/%{_hordeapp}-h3-%{version}-beta.tar.gz
+Source0:	ftp://ftp.horde.org/pub/snaps/%{_snap}/%{_hordeapp}-HEAD-%{_snap}.tar.gz
 # Source0-md5:	6638fad5170d5421bacf7e44868a7964
 Source1:	%{name}.conf
 URL:		http://www.horde.org/passwd/
-BuildRequires:	rpmbuild(macros) >= 1.226
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
+BuildRequires:	rpmbuild(macros) >= 1.226
+BuildRequires:	tar >= 1:1.15.1
 Requires(post):	sed >= 4.0
 Requires:	apache >= 1.3.33-2
 Requires:	apache(mod_access)
@@ -123,7 +124,7 @@ done
 %attr(660,root,http) %config(noreplace) %{_sysconfdir}/%{_hordeapp}/conf.php
 %attr(660,root,http) %config(noreplace) %ghost %{_sysconfdir}/%{_hordeapp}/conf.php.bak
 %attr(640,root,http) %config(noreplace) %{_sysconfdir}/%{_hordeapp}/[!c]*.php
-%attr(640,root,http) %{_sysconfdir}/%{_hordeapp}/*.xml
+%attr(640,root,http) %{_sysconfdir}/%{_hordeapp}/conf.xml
 
 %dir %{_appdir}
 %{_appdir}/*.php
