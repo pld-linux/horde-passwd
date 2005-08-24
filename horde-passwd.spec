@@ -1,5 +1,5 @@
 %define	_snap	2005-08-24
-%define	_rel	1
+%define	_rel	2
 #
 %define		_hordeapp	passwd
 %include	/usr/lib/rpm/macros.php
@@ -15,6 +15,7 @@ Group:		Applications/WWW
 Source0:	ftp://ftp.horde.org/pub/snaps/%{_snap}/%{_hordeapp}-HEAD-%{_snap}.tar.gz
 # Source0-md5:	6638fad5170d5421bacf7e44868a7964
 Source1:	%{name}.conf
+Patch0:		http://glen.alkohol.ee/pld/horde-passwd-broken-_userDN.patch
 URL:		http://www.horde.org/passwd/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
 BuildRequires:	rpmbuild(macros) >= 1.226
@@ -50,6 +51,7 @@ modu³.
 %prep
 %setup -q -c -T -n %{?_snap:%{name}-%{_snap}}%{!?_snap:%{name}-%{version}%{?_rc:-%{_rc}}}
 tar zxf %{SOURCE0} --strip-components=1
+%patch0 -p1
 
 rm -f scripts/.htaccess
 # considered harmful (horde/docs/SECURITY)
