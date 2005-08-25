@@ -15,7 +15,7 @@ Group:		Applications/WWW
 Source0:	ftp://ftp.horde.org/pub/snaps/%{_snap}/%{_hordeapp}-HEAD-%{_snap}.tar.gz
 # Source0-md5:	6638fad5170d5421bacf7e44868a7964
 Source1:	%{name}.conf
-Patch0:		http://glen.alkohol.ee/pld/horde-passwd-broken-_userDN.patch
+Patch0:		http://glen.alkohol.ee/pld/%{name}-broken-_userDN.patch
 URL:		http://www.horde.org/passwd/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
 BuildRequires:	rpmbuild(macros) >= 1.226
