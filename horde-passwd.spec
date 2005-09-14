@@ -7,8 +7,7 @@ Summary:	passwd - password change module for Horde
 Summary(pl):	passwd - modu³ do zmieniania hase³ w Horde
 Name:		horde-passwd
 Version:	3.0
-#Release:	%{?_rc:%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
-Release:	0.%{_rc}.1
+Release:	%{?_rc:0.%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
 License:	ASL
 Vendor:		The Horde Project
 Group:		Applications/WWW
