@@ -1,4 +1,5 @@
-%define	_snap	2005-08-26
+##%define	_snap	2005-08-26
+%define	_rc	rc1
 %define	_rel	1
 #
 %define		_hordeapp	passwd
@@ -7,13 +8,14 @@ Summary:	passwd - password change module for Horde
 Summary(pl):	passwd - modu³ do zmieniania hase³ w Horde
 Name:		horde-passwd
 Version:	3.0
-Release:	%{?_rc:%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
+#Release:	%{?_rc:%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
+Release:	0.%{_rc}.1
 License:	ASL
 Vendor:		The Horde Project
 Group:		Applications/WWW
-#Source0:	ftp://ftp.horde.org/pub/passwd/%{_hordeapp}-h3-%{version}-beta.tar.gz
-Source0:	ftp://ftp.horde.org/pub/snaps/%{_snap}/%{_hordeapp}-HEAD-%{_snap}.tar.gz
-# Source0-md5:	95fbc7b902ed4c527b1d84bcddf3241b
+Source0:	ftp://ftp.horde.org/pub/passwd/%{_hordeapp}-h3-%{version}-%{_rc}.tar.gz
+# Source0-md5:	8e8ec177bc1622d4607f182bf18f55b1
+#Source0:	ftp://ftp.horde.org/pub/snaps/%{_snap}/%{_hordeapp}-HEAD-%{_snap}.tar.gz
 Source1:	%{name}.conf
 URL:		http://www.horde.org/passwd/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
@@ -48,8 +50,9 @@ intensyjwnie rozwijana, aby rozszerzyæ mo¿liwo¶ci i udoskonaliæ ten
 modu³.
 
 %prep
-%setup -q -c -T -n %{?_snap:%{name}-%{_snap}}%{!?_snap:%{name}-%{version}%{?_rc:-%{_rc}}}
-tar zxf %{SOURCE0} --strip-components=1
+#%setup -q -c -T -n %{?_snap:%{name}-%{_snap}}%{!?_snap:%{name}-%{version}%{?_rc:-%{_rc}}}
+#tar zxf %{SOURCE0} --strip-components=1
+%setup -q -n passwd-h3-%{version}-%{_rc}
 
 rm -f scripts/.htaccess
 # considered harmful (horde/docs/SECURITY)
