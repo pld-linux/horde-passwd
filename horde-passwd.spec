@@ -51,7 +51,6 @@ modu³.
 %prep
 %setup -q -c -T -n %{?_snap:%{name}-%{_snap}}%{!?_snap:%{name}-%{version}%{?_rc:-%{_rc}}}
 tar zxf %{SOURCE0} --strip-components=1
-#%setup -q -n passwd-h3-%{version}-%{_rc}
 
 rm -f scripts/.htaccess
 # considered harmful (horde/docs/SECURITY)
