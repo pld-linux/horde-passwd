@@ -2,14 +2,14 @@
 #define		_snap	2005-09-10
 %define		_rc		rc1
 %define		_rel	1
+#
 %include	/usr/lib/rpm/macros.php
 Summary:	passwd - password change module for Horde
 Summary(pl):	passwd - modu³ do zmieniania hase³ w Horde
-Name:		horde-passwd
+Name:		horde-%{_hordeapp}
 Version:	3.0
-Release:	%{?_rc:0.%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
+Release:	%{?_rc:1.%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
 License:	ASL
-Vendor:		The Horde Project
 Group:		Applications/WWW
 #Source0:	ftp://ftp.horde.org/pub/snaps/%{_snap}/%{_hordeapp}-HEAD-%{_snap}.tar.gz
 Source0:	ftp://ftp.horde.org/pub/passwd/%{_hordeapp}-h3-%{version}-%{_rc}.tar.gz
@@ -30,7 +30,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # horde accesses it directly in help->about
 %define		_noautocompressdoc  CREDITS
-%define		_noautoreq	'pear(Horde/.*)'
+%define		_noautoreq	'pear(Horde.*)'
 
 %define		hordedir	/usr/share/horde
 %define		_sysconfdir	/etc/horde.org
@@ -48,7 +48,7 @@ intensyjwnie rozwijana, aby rozszerzyæ mo¿liwo¶ci i udoskonaliæ ten
 modu³.
 
 %prep
-%setup -q -c -T -n %{?_snap:%{name}-%{_snap}}%{!?_snap:%{name}-%{version}%{?_rc:-%{_rc}}}
+%setup -q -c -T -n %{?_snap:%{_hordeapp}-%{_snap}}%{!?_snap:%{_hordeapp}-%{version}%{?_rc:-%{_rc}}}
 tar zxf %{SOURCE0} --strip-components=1
 
 rm -f scripts/.htaccess
@@ -57,17 +57,16 @@ rm -f test.php
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/cron.daily,%{_sysconfdir}/%{_hordeapp}} \
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp} \
 	$RPM_BUILD_ROOT%{_appdir}/{docs,lib,locale,scripts,templates,themes}
 
 cp -pR	*.php			$RPM_BUILD_ROOT%{_appdir}
 for i in config/*.dist; do
 	cp -p $i $RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/$(basename $i .dist)
 done
-
-echo "<?php ?>" > 		$RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/conf.php
-install config/conf.xml $RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/conf.xml
-> $RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/conf.php.bak
+echo '<?php ?>' > $RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/conf.php
+cp -p config/conf.xml $RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/conf.xml
+touch					$RPM_BUILD_ROOT%{_sysconfdir}/%{_hordeapp}/conf.php.bak
 
 cp -pR	lib/*			$RPM_BUILD_ROOT%{_appdir}/lib
 cp -pR	locale/*		$RPM_BUILD_ROOT%{_appdir}/locale
