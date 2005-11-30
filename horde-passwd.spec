@@ -1,7 +1,7 @@
 %define		_hordeapp	passwd
 #define		_snap	2005-09-10
 #define		_rc		rc1
-%define		_rel	2.1
+%define		_rel	2.2
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	passwd - password change module for Horde
@@ -51,7 +51,7 @@ intensyjwnie rozwijana, aby rozszerzyæ mo¿liwo¶ci i udoskonaliæ ten
 modu³.
 
 %prep
-%setup -q -c -T -n %{?_snap:%{_hordeapp}-%{_snap}}%{!?_snap:%{_hordeapp}-%{version}%{?_rc:-%{_rc}}}
+%setup -qcT -n %{?_snap:%{_hordeapp}-%{_snap}}%{!?_snap:%{_hordeapp}-%{version}%{?_rc:-%{_rc}}}
 tar zxf %{SOURCE0} --strip-components=1
 
 rm -f scripts/.htaccess
@@ -61,20 +61,20 @@ rm -f test.php
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir} \
-	$RPM_BUILD_ROOT%{_appdir}/{docs,lib,locale,scripts,templates,themes}
+	$RPM_BUILD_ROOT%{_appdir}/{docs,lib,locale,templates,themes}
 
-cp -pR	*.php			$RPM_BUILD_ROOT%{_appdir}
+cp -a	*.php			$RPM_BUILD_ROOT%{_appdir}
 for i in config/*.dist; do
-	cp -p $i $RPM_BUILD_ROOT%{_sysconfdir}/$(basename $i .dist)
+	cp -a $i $RPM_BUILD_ROOT%{_sysconfdir}/$(basename $i .dist)
 done
 echo '<?php ?>' > $RPM_BUILD_ROOT%{_sysconfdir}/conf.php
 cp -p config/conf.xml $RPM_BUILD_ROOT%{_sysconfdir}/conf.xml
 touch					$RPM_BUILD_ROOT%{_sysconfdir}/conf.php.bak
 
-cp -pR	lib/*			$RPM_BUILD_ROOT%{_appdir}/lib
-cp -pR	locale/*		$RPM_BUILD_ROOT%{_appdir}/locale
-cp -pR	templates/*		$RPM_BUILD_ROOT%{_appdir}/templates
-cp -pR	themes/*		$RPM_BUILD_ROOT%{_appdir}/themes
+cp -a	lib/*			$RPM_BUILD_ROOT%{_appdir}/lib
+cp -a	locale/*		$RPM_BUILD_ROOT%{_appdir}/locale
+cp -a	templates/*		$RPM_BUILD_ROOT%{_appdir}/templates
+cp -a	themes/*		$RPM_BUILD_ROOT%{_appdir}/themes
 
 ln -s %{_sysconfdir} 	$RPM_BUILD_ROOT%{_appdir}/config
 ln -s %{_docdir}/%{name}-%{version}/CREDITS $RPM_BUILD_ROOT%{_appdir}/docs
@@ -151,7 +151,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc README docs/* scripts
-%attr(750,root,http) %dir %{_sysconfdir}
+%dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %{_sysconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %{_sysconfdir}/httpd.conf
 %attr(660,root,http) %config(noreplace) %{_sysconfdir}/conf.php
