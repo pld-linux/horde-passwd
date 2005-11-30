@@ -1,7 +1,7 @@
 %define		_hordeapp	passwd
 #define		_snap	2005-09-10
 #define		_rc		rc1
-%define		_rel	2.2
+%define		_rel	2.3
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	passwd - password change module for Horde
@@ -54,27 +54,23 @@ modu³.
 %setup -qcT -n %{?_snap:%{_hordeapp}-%{_snap}}%{!?_snap:%{_hordeapp}-%{version}%{?_rc:-%{_rc}}}
 tar zxf %{SOURCE0} --strip-components=1
 
-rm -f scripts/.htaccess
+rm -f {,*/}.htaccess
+for i in config/*.dist; do
+	mv $i config/$(basename $i .dist)
+done
 # considered harmful (horde/docs/SECURITY)
 rm -f test.php
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sysconfdir} \
-	$RPM_BUILD_ROOT%{_appdir}/{docs,lib,locale,templates,themes}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir}/docs}
 
-cp -a	*.php			$RPM_BUILD_ROOT%{_appdir}
-for i in config/*.dist; do
-	cp -a $i $RPM_BUILD_ROOT%{_sysconfdir}/$(basename $i .dist)
-done
+cp -a *.php $RPM_BUILD_ROOT%{_appdir}
+cp -a config/* $RPM_BUILD_ROOT%{_sysconfdir}
 echo '<?php ?>' > $RPM_BUILD_ROOT%{_sysconfdir}/conf.php
-cp -p config/conf.xml $RPM_BUILD_ROOT%{_sysconfdir}/conf.xml
-touch					$RPM_BUILD_ROOT%{_sysconfdir}/conf.php.bak
+touch $RPM_BUILD_ROOT%{_sysconfdir}/conf.php.bak
+cp -a lib locale templates themes $RPM_BUILD_ROOT%{_appdir}
 
-cp -a	lib/*			$RPM_BUILD_ROOT%{_appdir}/lib
-cp -a	locale/*		$RPM_BUILD_ROOT%{_appdir}/locale
-cp -a	templates/*		$RPM_BUILD_ROOT%{_appdir}/templates
-cp -a	themes/*		$RPM_BUILD_ROOT%{_appdir}/themes
 
 ln -s %{_sysconfdir} 	$RPM_BUILD_ROOT%{_appdir}/config
 ln -s %{_docdir}/%{name}-%{version}/CREDITS $RPM_BUILD_ROOT%{_appdir}/docs
