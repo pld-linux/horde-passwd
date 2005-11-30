@@ -119,7 +119,7 @@ for i in backends.php conf.php; do
 done
 
 %triggerpostun -- horde-%{_hordeapp} < 3.0-2.1
-for i in backends.php conf.php conf.xml; do
+for i in backends.php conf.php; do
 	if [ -f /etc/horde.org/%{_hordeapp}/$i.rpmsave ]; then
 		mv -f %{_sysconfdir}/$i{,.rpmnew}
 		mv -f /etc/horde.org/%{_hordeapp}/$i.rpmsave %{_sysconfdir}/$i
