@@ -1,7 +1,7 @@
 %define		_hordeapp	passwd
 #define		_snap	2005-09-10
 #define		_rc		rc1
-%define		_rel	2.3
+%define		_rel	3
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	passwd - password change module for Horde
