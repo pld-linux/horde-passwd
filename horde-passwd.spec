@@ -1,7 +1,7 @@
 %define		_hordeapp	passwd
 #define		_snap	2005-09-10
 #define		_rc		rc1
-%define		_rel	3.7
+%define		_rel	3.8
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	passwd - password change module for Horde
@@ -106,7 +106,7 @@ fi
 %triggerun -- apache >= 2.0.0
 %webapp_unregister httpd %{_webapp}
 
-%triggerpostun -- horde-passwd <= 2.2-0.1
+%triggerpostun -- horde-%{_hordeapp} < 3.0-2.1
 for i in backends.php conf.php; do
 	if [ -f /home/services/httpd/html/horde/passwd/config/$i.rpmsave ]; then
 		mv -f %{_sysconfdir}/$i{,.rpmnew}
@@ -114,7 +114,6 @@ for i in backends.php conf.php; do
 	fi
 done
 
-%triggerpostun -- horde-%{_hordeapp} < 3.0-2.1
 for i in backends.php conf.php; do
 	if [ -f /etc/horde.org/%{_hordeapp}/$i.rpmsave ]; then
 		mv -f %{_sysconfdir}/$i{,.rpmnew}
