@@ -1,7 +1,7 @@
 %define		_hordeapp	passwd
 #define		_snap	2005-09-10
 #define		_rc		rc1
-%define		_rel	3
+%define		_rel	3.7
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	passwd - password change module for Horde
@@ -132,16 +132,12 @@ fi
 if [ -L /etc/apache/conf.d/99_horde-%{_hordeapp}.conf ]; then
 	/usr/sbin/webapp register apache %{_webapp}
 	rm -f /etc/apache/conf.d/99_horde-%{_hordeapp}.conf
-	if [ -f /var/lock/subsys/apache ]; then
-		/etc/rc.d/init.d/apache reload 1>&2
-	fi
+	%service -q apache reload
 fi
 if [ -L /etc/httpd/httpd.conf/99_horde-%{_hordeapp}.conf ]; then
 	/usr/sbin/webapp register httpd %{_webapp}
 	rm -f /etc/httpd/httpd.conf/99_horde-%{_hordeapp}.conf
-	if [ -f /var/lock/subsys/httpd ]; then
-		/etc/rc.d/init.d/httpd reload 1>&2
-	fi
+	%sercice -q httpd reload
 fi
 
 %files
