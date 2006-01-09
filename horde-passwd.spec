@@ -136,7 +136,7 @@ fi
 if [ -L /etc/httpd/httpd.conf/99_horde-%{_hordeapp}.conf ]; then
 	/usr/sbin/webapp register httpd %{_webapp}
 	rm -f /etc/httpd/httpd.conf/99_horde-%{_hordeapp}.conf
-	%sercice -q httpd reload
+	%service -q httpd reload
 fi
 
 %files
