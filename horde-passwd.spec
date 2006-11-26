@@ -1,7 +1,7 @@
 %define		_hordeapp	passwd
 #define		_snap	2005-09-10
 #define		_rc		rc1
-%define		_rel	5
+%define		_rel	6
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	passwd - password change module for Horde
@@ -21,7 +21,8 @@ BuildRequires:	rpmbuild(macros) >= 1.264
 BuildRequires:	tar >= 1:1.15.1
 Requires(post):	sed >= 4.0
 Requires:	horde >= 3.0
-Requires:	php-xml >= 4.1.0
+Requires:	php(xml)
+Requires:	php-common >= 4.1.0
 Requires:	webapps
 Obsoletes:	horde-addons-passwd
 BuildArch:	noarch
