@@ -1,19 +1,20 @@
 %define		_hordeapp	passwd
 #define		_snap	2005-09-10
 #define		_rc		rc1
-%define		_rel	6
+%define		_rel	1
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	passwd - password change module for Horde
 Summary(pl):	passwd - modu³ do zmieniania hase³ w Horde
 Name:		horde-%{_hordeapp}
-Version:	3.0
+Version:	3.0.1
 Release:	%{?_rc:0.%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
 License:	ASL
 Group:		Applications/WWW
 #Source0:	ftp://ftp.horde.org/pub/snaps/%{_snap}/%{_hordeapp}-HEAD-%{_snap}.tar.gz
 Source0:	ftp://ftp.horde.org/pub/passwd/%{_hordeapp}-h3-%{version}.tar.gz
-# Source0-md5:	ca5612500c91c4ef3c838e8e94376332
+# Source0-md5:	b5217a62c7a88e2845d382a1d19d5644
+#Source0:	ftp://ftp.horde.org/pub/passwd/%{_hordeapp}-h3-%{version}-%{_rc}.tar.gz
 Source1:	%{name}.conf
 URL:		http://www.horde.org/passwd/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
