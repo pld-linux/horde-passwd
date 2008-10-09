@@ -44,7 +44,7 @@ intensyjwnie rozwijana, aby rozszerzyć możliwości i udoskonalić ten
 moduł.
 
 %prep
-%setup -q
+%setup -q -n %{_hordeapp}-h3-%{version}
 
 rm -f {,*/}.htaccess
 for i in config/*.dist; do
