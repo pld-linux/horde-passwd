@@ -1,20 +1,15 @@
 %define		_hordeapp	passwd
-#define		_snap	2005-09-10
-#define		_rc		rc1
-%define		_rel	2
 #
 %include	/usr/lib/rpm/macros.php
 Summary:	passwd - password change module for Horde
 Summary(pl.UTF-8):	passwd - moduł do zmieniania haseł w Horde
 Name:		horde-%{_hordeapp}
 Version:	3.0.1
-Release:	%{?_rc:0.%{_rc}.}%{?_snap:0.%(echo %{_snap} | tr -d -).}%{_rel}
+Release:	2
 License:	ASL
 Group:		Applications/WWW
-#Source0:	ftp://ftp.horde.org/pub/snaps/%{_snap}/%{_hordeapp}-HEAD-%{_snap}.tar.gz
 Source0:	ftp://ftp.horde.org/pub/passwd/%{_hordeapp}-h3-%{version}.tar.gz
 # Source0-md5:	b5217a62c7a88e2845d382a1d19d5644
-#Source0:	ftp://ftp.horde.org/pub/passwd/%{_hordeapp}-h3-%{version}-%{_rc}.tar.gz
 Source1:	%{name}.conf
 URL:		http://www.horde.org/passwd/
 BuildRequires:	rpm-php-pearprov >= 4.0.2-98
@@ -51,8 +46,7 @@ intensyjwnie rozwijana, aby rozszerzyć możliwości i udoskonalić ten
 moduł.
 
 %prep
-%setup -qcT -n %{?_snap:%{_hordeapp}-%{_snap}}%{!?_snap:%{_hordeapp}-%{version}%{?_rc:-%{_rc}}}
-tar zxf %{SOURCE0} --strip-components=1
+%setup -q
 
 rm -f {,*/}.htaccess
 for i in config/*.dist; do
