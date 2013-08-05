@@ -5,7 +5,7 @@ Summary:	passwd - password change module for Horde
 Summary(pl.UTF-8):	passwd - moduł do zmieniania haseł w Horde
 Name:		horde-%{_hordeapp}
 Version:	3.1.3
-Release:	3
+Release:	4
 License:	ASL
 Group:		Applications/WWW
 Source0:	ftp://ftp.horde.org/pub/passwd/%{_hordeapp}-h3-%{version}.tar.gz
@@ -29,7 +29,7 @@ Conflicts:	apache-base < 2.4.0-1
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_noautoreq	'pear(Horde.*)'
+%define		_noautoreq_pear	Horde.*
 
 %define		hordedir	/usr/share/horde
 %define		_appdir		%{hordedir}/%{_hordeapp}
