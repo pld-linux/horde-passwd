@@ -1,6 +1,5 @@
 %define		_hordeapp	passwd
 #
-%include	/usr/lib/rpm/macros.php
 Summary:	passwd - password change module for Horde
 Summary(pl.UTF-8):	passwd - moduł do zmieniania haseł w Horde
 Name:		horde-%{_hordeapp}
